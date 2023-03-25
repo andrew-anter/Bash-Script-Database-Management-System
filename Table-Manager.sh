@@ -16,7 +16,14 @@ Select an option:
 do
 	case $option in 
 		"1") 
-			echo "Create Table"
+			read -p "Enter table name: " tbName
+			if [ -f $tbName  ]
+			then
+				echo "Error this table already exist"
+			else
+				touch $tbName
+				echo "Table $tbName created"
+			fi
 			;;
 		"2")
 			echo "List tables"
