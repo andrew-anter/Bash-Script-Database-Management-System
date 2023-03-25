@@ -1,6 +1,7 @@
 #!/bin/bash
 
-while read -p "Select an option
+while read -p "
+Select an option:
 	1- Create Database
 	2- List Databases
 	3- Connect to Database
@@ -22,7 +23,10 @@ do
 			;;
 			
 		"2")	
-			echo "DB listed";;
+			ls "./DBS/"
+			
+			;;
+
 		"3")	echo "DB Connected";;
 		"4")	echo "DB Dropped";;
 		"5")	exit;;
