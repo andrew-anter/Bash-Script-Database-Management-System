@@ -15,19 +15,27 @@ do
 			
 			if [ -d "./DBS/$dbName" ]
 			then
-				echo "Error: DB is already exist"
+				echo "!Error: DB is already exist!"
 			else
 				mkdir "./DBS/$dbName"
-				echo "DB created"
+				echo "DB created."
 			fi 
 			;;
 			
-		"2")	
-			ls "./DBS/"
-			
+		"2")	ls "./DBS/"
 			;;
 
-		"3")	echo "DB Connected";;
+		"3")	
+			read -p "Enter the name of the DB to connect to: " dbName
+			if [ -d "./DBS/$dbName"  ]
+			then
+				cd "./DBS/$dbName"
+				# Go to Table Manager
+			else
+				echo "!Error: DB does not exist!"
+			fi
+			;;
+
 		"4")	echo "DB Dropped";;
 		"5")	exit;;
 	esac
