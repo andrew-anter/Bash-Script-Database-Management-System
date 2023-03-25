@@ -1,5 +1,12 @@
 #!/bin/bash
 
+## initialization of DBS file
+if ! [ -d "./DBS/"  ]
+then
+	mkdir "DBS"
+	echo "DBS created"
+fi
+
 while read -p "
 Select an option:
 	1- Create Database
@@ -11,14 +18,14 @@ Select an option:
 do
 	case $option in 
 		"1")	
-			read -p "Enter the name of the DB: " dbName
+			read -p "Enter the name of the Database: " dbName
 			
 			if [ -d "./DBS/$dbName" ]
 			then
-				echo "!Error: DB is already exist!"
+				echo "!Error: Database is already exist!"
 			else
 				mkdir "./DBS/$dbName"
-				echo "DB created."
+				echo "Database created."
 			fi 
 			;;
 			
@@ -26,17 +33,32 @@ do
 			;;
 
 		"3")	
-			read -p "Enter the name of the DB to connect to: " dbName
+			read -p "Enter the name of the Database to connect to: " dbName
 			if [ -d "./DBS/$dbName"  ]
 			then
 				cd "./DBS/$dbName"
 				# Go to Table Manager
 			else
-				echo "!Error: DB does not exist!"
+				echo "!Error: Database does not exist!"
 			fi
 			;;
 
-		"4")	echo "DB Dropped";;
-		"5")	exit;;
+		"4")	
+			read -p "Enter the name of the Database to drop: " dbName
+			if [ -d "./DBS/$dbName"  ]
+			then
+				read -p "Are you sure want to drop $dbName Database with all its tables? [y/n]: " check
+				if [ $check = "y" ]
+				then
+					rm -r "./DBS/$dbName"
+					echo "Database $dbName dropped."
+				fi
+			else
+				echo "!Error: Database does not exist!"
+			fi
+			;;
+
+		"5")	exit
+			;;
 	esac
 done
