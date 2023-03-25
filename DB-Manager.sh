@@ -9,8 +9,20 @@ while read -p "Select an option
 	" option
 do
 	case $option in 
-		"1")	echo "DB created";;
-		"2")	echo "DB listed";;
+		"1")	
+			read -p "Enter the name of the DB: " dbName
+			
+			if [ -d "./DBS/$dbName" ]
+			then
+				echo "Error: DB is already exist"
+			else
+				mkdir "./DBS/$dbName"
+				echo "DB created"
+			fi 
+			;;
+			
+		"2")	
+			echo "DB listed";;
 		"3")	echo "DB Connected";;
 		"4")	echo "DB Dropped";;
 		"5")	exit;;
