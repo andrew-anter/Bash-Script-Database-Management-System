@@ -18,18 +18,23 @@ Select an option:
 do
 	case $option in 
 		"1")	
-			read -p "Enter the name of the Database: " dbName
-			
-			if [ -d "./DBS/$dbName" ]
+			read -p "Enter the name of the Database:[must start with an alhabet] " dbName
+			if [[ $dbName =~ ^[A-Za-z]+[0-9]* ]]
 			then
-				echo "!Error: Database is already exist!"
+				if [ -d "./DBS/$dbName" ]
+				then
+					echo "!Error: Database is already exist!"
+				else
+					mkdir "./DBS/$dbName"
+					echo "Database created."
+				fi
 			else
-				mkdir "./DBS/$dbName"
-				echo "Database created."
-			fi 
-			;;
+				echo "!Error: Database name must start with a character"
+			fi	
+				;;
 			
-		"2")	ls "./DBS/"
+		"2")	
+			ls "./DBS/"
 			;;
 
 		"3")	
@@ -37,7 +42,9 @@ do
 			if [ -d "./DBS/$dbName"  ]
 			then
 				cd "./DBS/$dbName"
-				# Go to Table Manager
+				echo "Databse $dbName Connected"
+				../../Table-Manager.sh $dbName
+				cd ../..
 			else
 				echo "!Error: Database does not exist!"
 			fi
