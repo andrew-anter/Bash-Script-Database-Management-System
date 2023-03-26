@@ -32,7 +32,15 @@ do
 	case $option in 
 		"1") 
 			read -p "Enter table name: " tbName
-			if [ -f "./Tables/$tbName"  ]
+			
+			if ! [ $tbName  ]
+			then
+				echo "!Error: No table name was entered" 
+				continue
+			fi
+
+
+			if [ -f "./Tables/$tbName"  ] 
 			then
 				echo "Error this table already exist"
 			else
@@ -53,7 +61,7 @@ do
 							do
 								if ! [[ ${i^^} =~ ^(S|I)$ ]]
 								then
-									echo "One or more data type is invalid"
+									echo "!!Error: One or more data type is invalid"
 									valid=0
 									break
 								fi
@@ -119,6 +127,7 @@ do
 				if [ ${confirm^^} = "Y"  ]
 				then
 					rm "./Tables/$tbName"
+					rm "./Metadata/$tbName"
 					echo "Table Dropped"
 				fi
 
