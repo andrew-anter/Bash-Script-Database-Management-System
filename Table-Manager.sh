@@ -36,8 +36,70 @@ do
 			then
 				echo "Error this table already exist"
 			else
-				touch "./Tables/$tbName"
-				echo "Table $tbName created"
+
+				read -p "Enter the names of columns separated by spaces: " -a cols
+				read -p "Enter the data type for each column respectively separated by spaces: [s:string / i:integer] " -a datatype
+				read -p "Specify which column is primary: [primary:p / normal:n]" -a primaryKey
+				if [ $cols ]
+				then
+					if [[ ${#datatype[*]} = ${#cols[@]} ]]
+					then
+						if [[ ${#cols[*]} = ${#primaryKey[*]}  ]]
+						then
+							echo "vaild colstypes number & valid primarykey number"
+							
+							valid=1
+							for i in ${datatype[*]}
+							do
+								if ! [[ ${i^^} =~ ^(S|I)$ ]]
+								then
+									echo "One or more data type is invalid"
+									valid=0
+									break
+								fi
+							done
+							
+							primary=0
+							for i in ${primaryKey[*]}
+							do
+								if ! [[ ${i^^} =~ ^(P|N)$  ]]
+								then
+									echo "!Error: One or more column type (p/n) is invalid"
+									valid=0
+									break
+								fi
+								
+								if [[ ${i^^} =~ ^(P)$ ]]
+								then
+									primary=1
+								fi
+							done	
+
+							if [[ $primary > 1  ]]
+							then
+								echo "!Error: Can not set up more than one primary key column" 
+								continue
+							elif [[ $primary = 0  ]]
+							then
+								echo "!Error: There must be one primary key column"
+								continue
+							fi
+							
+							if [[ $valid = 1  ]]
+							then
+								touch "./Tables/$tbName" "./Metadata/$tbName"
+								echo "Table $tbName created"
+							fi
+						else
+							echo "!Error: All columns must be specifie as a primary key or not"
+						fi
+
+					else
+						echo "!Error: All columns must have a datatype"
+					fi
+				else
+					echo "!Error: No columns were specified"
+				fi
 			fi
 			;;
 		"2")
@@ -49,7 +111,7 @@ do
 			if [ -f "./Tables/$tbName"  ]
 			then
 				read -p "Do you really want to drop this table with its data? [y/n]: " confirm
-				if [ $confirm = "y"  ]
+				if [ ${confirm^^} = "Y"  ]
 				then
 					rm "./Tables/$tbName"
 					echo "Table Dropped"
