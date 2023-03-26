@@ -21,7 +21,7 @@ do
 			read -p "Enter the name of the Database:[must start with an alhabet] " dbName
 			if [[ $dbName =~ ^[A-Za-z]+[0-9]* ]]
 			then
-				if [ -d "./DBS/$dbName" ]
+				if [ -d "./DBS/$dbName" ] && [ $dbName  ]
 				then
 					echo "!Error: Database is already exist!"
 				else
@@ -39,7 +39,7 @@ do
 
 		"3")	
 			read -p "Enter the name of the Database to connect to: " dbName
-			if [ -d "./DBS/$dbName"  ]
+			if [ -d "./DBS/$dbName"  ] && [ $dbName  ]
 			then
 				cd "./DBS/$dbName"
 				echo "Databse $dbName Connected"
@@ -52,10 +52,10 @@ do
 
 		"4")	
 			read -p "Enter the name of the Database to drop: " dbName
-			if [ -d "./DBS/$dbName"  ]
+			if [ -d "./DBS/$dbName"  ] && [ $dbName  ]
 			then
 				read -p "Are you sure want to drop $dbName Database with all its tables? [y/n]: " check
-				if [ $check = "y" ]
+				if [ ${check^^} = "Y" ]
 				then
 					rm -r "./DBS/$dbName"
 					echo "Database $dbName dropped."
