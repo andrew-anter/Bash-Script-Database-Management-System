@@ -89,6 +89,11 @@ do
 							then
 								touch "./Tables/$tbName" "./Metadata/$tbName"
 								echo "Table $tbName created"
+
+								for ((i=0; i<${#cols[*]}; i++  ))
+								do
+									echo "${cols[$i]}:${datatype[$i]}:${primaryKey[$i]}" >> "./Metadata/$tbName"
+								done
 							fi
 						else
 							echo "!Error: All columns must be specifie as a primary key or not"
