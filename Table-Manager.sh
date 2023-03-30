@@ -1,6 +1,5 @@
 #!/bin/bash
-
-# check and create tables and metadata folders
+# check an-gt crete tables and metadata folders
 if ! [ -d "Tables" ]
 then
 	mkdir "Tables"
@@ -33,7 +32,7 @@ do
 		"1") 
 			read -p "Enter table name: " tbName
 			
-			if ! [ $tbName  ]
+			if ! [ "$tbName"  ]
 			then
 				echo "!Error: No table name was entered" 
 				continue
@@ -48,7 +47,7 @@ do
 				read -p "Enter the names of columns separated by spaces: " -a cols
 				read -p "Enter the data type for each column respectively separated by spaces: [s:string / i:integer] " -a datatype
 				read -p "Specify which column is primary: [primary:p / normal:n]" -a primaryKey
-				if [ $cols ]
+				if [[ ${cols[@]} ]]
 				then
 					if [[ ${#datatype[*]} = ${#cols[@]} ]]
 					then
@@ -57,7 +56,7 @@ do
 							echo "vaild colstypes number & valid primarykey number"
 							
 							valid=1
-							for i in ${datatype[*]}
+							for i in "${datatype[@]}"
 							do
 								if ! [[ ${i^^} =~ ^(S|I)$ ]]
 								then
@@ -68,7 +67,7 @@ do
 							done
 							
 							primary=0
-							for i in ${primaryKey[*]}
+							for i in "${primaryKey[@]}"
 							do
 								if ! [[ ${i^^} =~ ^(P|N)$  ]]
 								then
@@ -83,7 +82,7 @@ do
 								fi
 							done	
 
-							if [[ $primary > 1  ]]
+							if [ $primary -gt 1  ]
 							then
 								echo "!Error: Can not set up more than one primary key column" 
 								continue
@@ -98,7 +97,7 @@ do
 								touch "./Tables/$tbName" "./Metadata/$tbName"
 								echo "Table $tbName created"
 
-								for ((i=0; i<${#cols[*]}; i++  ))
+								for (( i=0; i<${#cols[*]}; i++  ))
 								do
 									echo "${cols[$i]}:${datatype[$i]}:${primaryKey[$i]}" >> "./Metadata/$tbName"
 								done
@@ -124,7 +123,7 @@ do
 			if [ -f "./Tables/$tbName"  ]
 			then
 				read -p "Do you really want to drop this table with its data? [y/n]: " confirm
-				if [ ${confirm^^} = "Y"  ]
+				if [ "${confirm^^}" = "Y"  ]
 				then
 					rm "./Tables/$tbName"
 					rm "./Metadata/$tbName"
@@ -135,11 +134,82 @@ do
 				echo "This table does not exist"
 			fi
 			;;
-		"4") 
-			echo "Insert into table"
+		"4")
+			read -p "Enter Table Name: " tbName
+			if [ "$tbName" ] && [ -f "./Tables/$tbName" ] && [ -f "./Metadata/$tbName" ] 
+			then
+				## Get the data from the table and then convert it to an array
+				colNames=($(awk -F: '{print $1}' ./Metadata/"$tbName"))
+				colTypes=($(awk -F: '{print $2}' ./Metadata/"$tbName"))
+				colPK=($(awk -F: '{print $3}' ./Metadata/"$tbName"))
+					 
+				echo "Enter the values of["${colNames[*]}"] respectively"
+				read  -a input	
+
+				## if input exists and the number of columns is the same as in the table
+				if [[ "${input[@]}" ]] && [[ ${#input[@]} -eq "${#colNames[@]}" ]]
+				then			
+
+					## check if the column types matches the data if not then will return to the main while loop
+					for i in ${!input[@]}
+					do	
+						if [ ${colPK[$i]} = "p" ]
+						then
+							primaryKeyValue=${input[$i]}
+						fi
+
+						if [[ ${colTypes[$i]} = "i" ]] && ! [[ ${input[$i]} =~ ^[0-9]+$ ]]
+						then
+							echo "!Error: value ${input[$i]} is not a valid integer"
+							continue 2
+						fi
+					done
+
+					## check for the primary key constrains[unique]
+					if [ `awk -F : -v primaryKeyVal=$primaryKeyValue 'BEGIN{ found="false"; }
+						{ if( primaryKeyVal == $1) found="true" ;} END{ print found;}' ./Tables/$tbName` = "true"  ]
+					then
+						echo "!Error: Primary key must be unique"
+						continue
+					fi
+
+					for i in ${!input[@]}
+					do
+						## if not the last line then print element + delimiter
+						if (( $i < ${#input[@]}-1 ))
+						then
+							echo "i: $i"
+							echo "value ${#input[@]}"
+							echo -n "${input[$i]}:" >> "./Tables/$tbName"
+						else
+							## last line print element + \n
+							echo "${input[$i]}" >> "./Tables/$tbName"
+						fi
+					done	
+
+
+				else
+					echo "!Error: invalid input"
+				fi
+				
+
+			else
+				echo "!Error: the table does not exist or is corrupted"
+			fi
+
 			;;
 		"5")
-			echo "select from table"
+			read -p "Enter the name of the table: " tbName
+			if [ -f "./Tables/$tbName" ]
+			then
+				echo "table found!!"
+				echo `awk -F : '{print $1"("$2","$3")"}' "./Metadata/$tbName"`
+				##awk -F : 'BEGIN{print ""} {print ""}'
+
+			else
+				echo "!Error: no table named \"$tbName\" in the current database"
+			fi
+
 			;;
 		"6")
 			echo "delete from table"
