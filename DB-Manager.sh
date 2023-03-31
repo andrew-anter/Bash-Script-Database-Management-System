@@ -47,7 +47,7 @@ do
 			then
 				cd "./DBS/$dbName" || exit
 				echo "Databse $dbName Connected"
-				$modules/Table-Manager.sh "$dbName"
+				$modules/Table-Manager.sh "$modules"
 				cd ../..
 			else
 				echo "!Error: Database does not exist!"

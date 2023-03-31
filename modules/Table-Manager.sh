@@ -1,5 +1,9 @@
 #!/bin/bash
-# check an-gt crete tables and metadata folders
+
+## get the modules folder path from the DB-Manager.sh
+modules=$1
+
+## check and crete tables and metadata folders
 if ! [ -d "Tables" ]
 then
 	mkdir "Tables"
@@ -28,25 +32,25 @@ Select an option:
 do
 	case $option in 
 		"1") 
-			../../create-table.sh ;;
+			$modules/create-table.sh ;;
 		
 		"2")
 			ls "./Tables/" ;;
 		
 		"3")
-			../../drop-table.sh ;;
+			$modules/drop-table.sh ;;
 
 		"4")
-			../../insert-into-table.sh ;;
+			$modules/insert-into-table.sh ;;
 		
 		"5")
-			../../select-from-table.sh ;;
+			$modules/select-from-table.sh ;;
 
 		"6")
-			../../delete-from-table.sh ;;
+			$modules/delete-from-table.sh ;;
 
 		"7")
-			../../update-table.sh ;;
+			$modules/update-table.sh ;;
 
 		"8")
 			exit;;
