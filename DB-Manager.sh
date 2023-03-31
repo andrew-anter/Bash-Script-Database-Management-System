@@ -1,5 +1,9 @@
 #!/bin/bash
 
+## modules folder location
+modules="$PWD/modules"
+
+
 ## initialization of DBS file
 if ! [ -d "./DBS/"  ]
 then
@@ -43,7 +47,7 @@ do
 			then
 				cd "./DBS/$dbName" || exit
 				echo "Databse $dbName Connected"
-				../../Table-Manager.sh "$dbName"
+				$modules/Table-Manager.sh "$dbName"
 				cd ../..
 			else
 				echo "!Error: Database does not exist!"
