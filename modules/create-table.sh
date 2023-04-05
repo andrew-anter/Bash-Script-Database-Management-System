@@ -17,6 +17,19 @@ else
     read -p "Specify which column is primary: [primary:p / normal:n]" -a primaryKey
     if [[ ${cols[@]} ]]
     then
+    	
+    	## check if column names is unique
+    	for i in ${cols[*]}
+    	do
+    		if [ ${freq[$i]} ]
+    		then
+    			freq[$i]=$(( ${freq[$i]} + 1 ))
+		else
+			freq[$i]=$(( 1 ))
+    		fi
+    		echo "$i: ${freq[$i]}"
+    	done
+    
         if [[ ${#datatype[*]} = ${#cols[@]} ]]
         then
             if [[ ${#cols[*]} = ${#primaryKey[*]}  ]]

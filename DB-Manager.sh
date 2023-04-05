@@ -22,7 +22,7 @@ Select an option:
 do
 	case $option in 
 		"1")	
-			read -p "Enter the name of the Database:[must start with an alhabet] " dbName
+			read -r -p "Enter the name of the Database:[must start with an alhabet] " dbName
 			if [[ $dbName =~ ^[A-Za-z]+[0-9]* ]]
 			then
 				if [ -d "./DBS/$dbName" ] && [ "$dbName"  ]
@@ -42,7 +42,7 @@ do
 			;;
 
 		"3")	
-			read -p "Enter the name of the Database to connect to: " dbName
+			read -r -p "Enter the name of the Database to connect to: " dbName
 			if [ -d "./DBS/$dbName"  ] && [ "$dbName"  ]
 			then
 				cd "./DBS/$dbName" || exit
@@ -55,10 +55,10 @@ do
 			;;
 
 		"4")	
-			read -p "Enter the name of the Database to drop: " dbName
+			read -r -p "Enter the name of the Database to drop: " dbName
 			if [ -d "./DBS/$dbName"  ] && [ "$dbName"  ]
 			then
-				read -p -r "Are you sure want to drop $dbName Database with all its tables? [y/n]: " check
+				read -r -p "Are you sure want to drop $dbName Database with all its tables? [y/n]: " check
 				if [ "${check^^}" = "Y" ]
 				then
 					rm -r "./DBS/$dbName"
