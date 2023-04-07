@@ -19,16 +19,16 @@ else
     then
     	
     	## check if column names is unique
-    	for i in ${cols[*]}
-    	do
-    		if [ ${freq[$i]} ]
-    		then
-    			freq[$i]=$(( ${freq[$i]} + 1 ))
-		else
-			freq[$i]=$(( 1 ))
-    		fi
-    		echo "$i: ${freq[$i]}"
-    	done
+#    	for i in ${cols[*]}
+#    	do
+#    		if [ ${freq[$i]} ]
+#    		then
+#    			freq[$i]=$(( ${freq[$i]} + 1 ))
+#		else
+#			freq[$i]=$(( 1 ))
+#    		fi
+#    		echo "$i: ${freq[$i]}"
+#    	done
     
         if [[ ${#datatype[*]} = ${#cols[@]} ]]
         then

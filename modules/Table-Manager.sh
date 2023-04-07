@@ -16,7 +16,8 @@ then
 	echo "Metadata Directory Created"
 fi
 
-echo "Greetings from Table Manager: $PWD"
+## Debugging 
+## echo "Greetings from Table Manager: $PWD"
 
 while read -p "
 Select an option:
