@@ -12,24 +12,18 @@ then
     echo "Error this table already exist"
 else
 
+	if ! [[ $tbName =~ ^[a-zA-Z0-9] ]]
+	then
+		echo "!Error: table name can not start with a character"
+		exit
+	fi
+
     read -p "Enter the names of columns separated by spaces: " -a cols
     read -p "Enter the data type for each column respectively separated by spaces: [s:string / i:integer] " -a datatype
     read -p "Specify which column is primary: [primary:p / normal:n]" -a primaryKey
-    if [[ ${cols[@]} ]]
-    then
-    	
-    	## check if column names is unique
-#    	for i in ${cols[*]}
-#    	do
-#    		if [ ${freq[$i]} ]
-#    		then
-#    			freq[$i]=$(( ${freq[$i]} + 1 ))
-#		else
-#			freq[$i]=$(( 1 ))
-#    		fi
-#    		echo "$i: ${freq[$i]}"
-#    	done
     
+    if [[ ${#cols} > 0 ]]
+    then
         if [[ ${#datatype[*]} = ${#cols[@]} ]]
         then
             if [[ ${#cols[*]} = ${#primaryKey[*]}  ]]
