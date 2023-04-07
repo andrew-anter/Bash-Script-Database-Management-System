@@ -19,11 +19,7 @@ then
 		{ if( $col == pkVal ) rn = NR }
 		END{ print rn }' "./Tables/$tbName"
 		`
-<<<<<<< HEAD
-	## If the row exists update it otherwise return an error
-=======
 	## If the row exists delete it otherwise return an error
->>>>>>> DBMS/main
 	if [ $rowNumber != "-1" ]
 	then
 		## If the name of column is valid then update the field else return an error
