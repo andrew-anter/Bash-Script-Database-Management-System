@@ -27,7 +27,7 @@ then
             if [[ ${colTypes[$i]} = "i" ]] && ! [[ ${input[$i]} =~ ^[0-9]+$ ]]
             then
                 echo "!Error: value ${input[$i]} is not a valid integer"
-                continue 2
+                exit
             fi
         done
 
@@ -36,7 +36,7 @@ then
             { if( primaryKeyVal == $1) found="true" ;} END{ print found;}' ./Tables/$tbName` = "true"  ]
         then
             echo "!Error: Primary key must be unique"
-            continue
+            exit
         fi
 
         for i in ${!input[@]}

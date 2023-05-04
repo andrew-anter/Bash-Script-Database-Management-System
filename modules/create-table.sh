@@ -5,7 +5,7 @@ read -p "Enter table name: " tbName
 if ! [ "$tbName"  ]
 then
     echo "!Error: No table name was entered" 
-    continue
+    exit
 fi
 if [ -f "./Tables/$tbName"  ] 
 then
@@ -58,11 +58,11 @@ else
                 if [ $primary -gt 1  ]
                 then
                     echo "!!Error: Can not set up more than one primary key column" 
-                    continue
+                    exit
                 elif [[ $primary = 0  ]]
                 then
                     echo "!!Error: There must be one primary key column"
-                    continue
+                    exit
                 fi
                 
                 if [[ $valid = 1  ]]

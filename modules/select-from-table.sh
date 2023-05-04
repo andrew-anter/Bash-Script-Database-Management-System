@@ -16,7 +16,7 @@ then
 		`
 		
 	## If the row = * then return all rows in a table in a nice format
-	if [ ${pkValue} = "ALL" ]
+	if [ ${pkValue^^} = "ALL" ]
 	then
 		awk -F : '{printf "%s(%s,%s) %-7s" ,$1,$2,$3, "" }END{printf "\n"}' "./Metadata/$tbName"
 		awk -F : -v rowNo=$rowNo ' 
@@ -32,10 +32,11 @@ then
 	## If the row exists print its data in a nice format otherwise return an error
 	if [ $rowNo != "-1" ]
 	then
+
 		awk -F : '{printf "%s(%s,%s) %-7s" ,$1,$2,$3, "" }END{printf "\n"}' "./Metadata/$tbName"
-		awk -F : -v rowNo=$rowNo' 
+		awk -F : -v rowNo=$rowNo ' 
 		{ 
-		if(NR == rowNo){
+		if( NR == rowNo ){
 			for(i = 1 ; i <= NF ; i++){
 				printf "  %s %-10s", $i , "";
 				}
