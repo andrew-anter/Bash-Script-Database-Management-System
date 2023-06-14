@@ -9,3 +9,15 @@ The application runs only on linux terminals. To run the application:
 chmod 777 DB-Manager.sh
 ./DB-Manager.sh
 ```
+
+## Each feature is implemented in a separate module: 
+<ul>
+  <li>Table-Manager.sh: This module is responsible for managing tables, such as creating, deleting, and dropping tables.</li>
+  <li>create-table.sh: This module is responsible for creating new tables.</li>
+  <li>delete-from-table.sh: This module is responsible for deleting data from tables.</li>
+  <li>drop-table.sh: This module is responsible for dropping tables.</li>
+  <li>insert-into-table.sh: This module is responsible for inserting data into tables.</li>
+  <li>select-from-table.sh: This module is responsible for selecting data from tables.</li>
+  <li>update-table.sh: This module is responsible for updating data in tables.</li>
+</ul>
+
