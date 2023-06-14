@@ -1,2 +1,11 @@
 # Bash Script Database Management System
-This is a simple DBMS built using shell script
+This repo representes A Bash-based database management system (DBMS). 
+The system represents databases as folders and tables as files. For each table, there are two files: one for the data and one for the metadata concerning the columns' specifics. When the script is run, it asks the user to connect to a database that was created before or create a new one and connect to it. After connecting to the database, the user is asked what to do next within the database tables themselves, such as performing CRUD operations on data or editing tables or columns.
+
+The system includes a number of validations to ensure that the data entered by the user is correct. For example, the system will validate that the names of tables and columns are valid, and that the data entered into each column is of the correct type. If the user enters incorrect data, the system will display an error message and ask the user to enter the data again.
+
+The application runs only on linux terminals. To run the application: 
+```bash
+chmod 777 DB-Manager.sh
+./DB-Manager.sh
+```
